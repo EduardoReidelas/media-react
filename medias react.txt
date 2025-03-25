@@ -1,0 +1,84 @@
+desenvolva uma aplicaçao em react native que:
+A- receba 4 notas
+b- calcule a media entre elas
+C- mostre o resultado em uma 5 TextImput
+D- verifique se a media:
+1.1 se for maior que 6,0; mostre "aprovado"
+1.2 se for maior que 4,0 e menor que 6,0; mostre "recuperação"
+1.2 se for menor que 4,0; mostre " reprovado"
+
+
+import React, { useState } from 'react';
+import { View, TextInput, Text, Button } from 'react-native';
+
+export default function App() {
+  // Estados para armazenar as notas e o resultado
+  const [nota1, setNota1] = useState('');
+  const [nota2, setNota2] = useState('');
+  const [nota3, setNota3] = useState('');
+  const [nota4, setNota4] = useState('');
+  const [media, setMedia] = useState('');
+  const [situacao, setSituacao] = useState('');
+
+  // Função para calcular a média e a situação
+  const calcularMedia = () => {
+    // Convertendo as notas de string para número
+    const n1 = parseFloat(nota1);
+    const n2 = parseFloat(nota2);
+    const n3 = parseFloat(nota3);
+    const n4 = parseFloat(nota4);
+
+    // Verificando se todas as notas são válidas (número)
+    if (isNaN(n1) || isNaN(n2) || isNaN(n3) || isNaN(n4)) {
+      alert("Por favor, insira números válidos em todas as notas.");
+      return;
+    }
+
+    // Calculando a média
+    const mediaCalculada = (n1 + n2 + n3 + n4) / 4;
+    setMedia(mediaCalculada.toFixed(2));  // Armazenando a média com duas casas decimais
+
+    // Verificando a situação com base na média
+    if (mediaCalculada >= 6) {
+      setSituacao('Aprovado');
+    } else if (mediaCalculada >= 4) {
+      setSituacao('Recuperação');
+    } else {
+      setSituacao('Reprovado');
+    }
+  };
+
+  return (
+    <View>
+      <TextInput
+        placeholder="Nota 1"
+        keyboardType="numeric"
+        value={nota1}
+        onChangeText={setNota1}
+      />
+      <TextInput
+        placeholder="Nota 2"
+        keyboardType="numeric"
+        value={nota2}
+        onChangeText={setNota2}
+      />
+      <TextInput
+        placeholder="Nota 3"
+        keyboardType="numeric"
+        value={nota3}
+        onChangeText={setNota3}
+      />
+      <TextInput
+        placeholder="Nota 4"
+        keyboardType="numeric"
+        value={nota4}
+        onChangeText={setNota4}
+      />
+      
+      <Button title="Calcular Média" onPress={calcularMedia} />
+      
+      <Text>Média: {media}</Text>
+      <Text>Situação: {situacao}</Text>
+    </View>
+  );
+}
